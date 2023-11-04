@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge</title>
+</head>
+<body>
+    <form>
+        <label for="input-username">Username</label>
+        <input type="text" name="input-username" id="input-username">
+
+        <label for="input-password">Password</label>
+        <input type="password" name="input-password" id="input-password">
+
+        <button id="login-button">Login</button>
+    </form>
+
+</body>
+<script>
+    class FormValidationError extends Error {
+        constructor(message) {
+            super(message);
+            this.name = "Validation Form Error"
+        }
+    }
+
+    const login = (username, password) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const isFail = Math.random() > 0.5;
+
+                const listUsers = [
+                    {
+                        username: "GDSCUSU",
+                        password: "1234567"
+                    }
+                ]
+
+
+                if (!username || !password) reject(new FormValidationError("Username atau Password tidak boleh kosong"))
+                else {
+                    const filteredUsers = listUsers.filter(user => user.username === username);
+                    if (!filteredUsers.length) reject(new FormValidationError("Username tidak sesuai")) 
+                    else {
+                        if(filteredUsers[0].password === password) resolve("Login Berhasil")
+                        else reject(new FormValidationError("Username dan Password tidak sesuai"))
+                    }
+                }
+            }, 3000)
+        })
+    }
+
+    document.getElementById("login-button").addEventListener("click", () => {
+        const username = document.getElementById("input-username").value;
+        const password = document.getElementById("input-password").value;
+
+        console.log(username, password);
+    })
+</script>
+</html>
